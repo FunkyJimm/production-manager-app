@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { useNavigate } from 'react-router-dom';
+
+import './App.scss';
 
 function App() {
+  let navigate = useNavigate();
+
+  const handleNavigate = endpoint => {
+    navigate(endpoint, { replace: false }, [navigate]);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Production Manager App by FunkyJimm 2022</h1>
+      <button onClick={() => handleNavigate('users')}>Users</button>
     </div>
   );
 }
