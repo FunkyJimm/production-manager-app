@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import ReturnButton from '../commons/return-button';
 
-const Loading = () => {
+const Loading = ({ message }) => {
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
@@ -15,14 +15,14 @@ const Loading = () => {
   if (isLoaded) {
     return (
       <div className="blank">
-        <p>Ta strona jest pusta.</p>
+        { message ? <p>{message}</p> : <p>Ta strona jest pusta.</p>}
         <ReturnButton />
       </div>
     )
   } else {
     return (
       <div className="loading">
-        <p>Wczytywanie</p>
+        <p>Wczytywanie...</p>
       </div>
     )
   }
