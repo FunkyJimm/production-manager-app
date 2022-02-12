@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
 
 import EmployeesSelect from '../../commons/employees-select';
+import ProductsSelect from '../../commons/products-select';
 import Loading from '../../loading/loading';
 
 import formTitle from '../../commons/form-title';
@@ -132,7 +133,7 @@ const ContractsForm = () => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Wybierz produkt:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="productId" />
+                <ProductsSelect handleChange={handleChange} values={values} name="productId" />
                 {<p className="validationError">{errors.productId && touched.productId && errors.productId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">

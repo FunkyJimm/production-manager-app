@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
 
-import EmployeesSelect from '../../commons/employees-select';
-import ProductsSelect from '../../commons/products-select';
 import Loading from '../../loading/loading';
 
 import formTitle from '../../commons/form-title';
@@ -12,9 +10,9 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'orders';
+const END_POINT = 'products';
 
-const OrdersForm = () => {
+const ProductsForm = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
@@ -36,14 +34,11 @@ const OrdersForm = () => {
 
   let initialValues = {
     name: '',
-    productId: '',
+    description: '',
     quantity: '',
-    managerId: '',
-    mechanicId: '',
-    shift: '',
-    status: '',
-    publicationDate: '',
-    executionDate: '',
+    price: '',
+    weight: '',
+    expirationDate: '',
   }
 
   if (isLoaded) {
@@ -54,7 +49,7 @@ const OrdersForm = () => {
 
     return (
       <div className='form'>
-        { formTitle(id, 'zlecenie produkcji') }
+        { formTitle(id, 'produkt') }
         
         <Formik 
           initialValues={initialValues}
@@ -64,28 +59,27 @@ const OrdersForm = () => {
               errors.name = 'Nazwa jest wymagana!';
             } else if (values.name.length < 2) {
               errors.name = 'Nazwa jest za krótka!';
-            } else if (values.name.length > 128) {
+            } else if (values.name.length > 32) {
               errors.name = 'Nazwa jest za długa!';
             }
-            if (!values.productId) {
-              errors.productId = 'Nie wybrano produktu!';
+            if (!values.description) {
+              errors.description = 'Opis jest wymagany!';
+            } else if (values.description.length < 2) {
+              errors.description = 'Opis jest za krótki!';
+            } else if (values.description.length > 64) {
+              errors.description = 'Opis jest za długi!';
             }
-            if (!values.quantity) {
-              errors.quantity = 'Podaj wymaganą ilość!';
+            if (values.quantity < 0) {
+              errors.quantity = 'Ilość nie może być mniejsza od 0!';
             }
-            if (!values.managerId) {
-              errors.managerId = 'Nie wybrano brygadzisty!';
+            if (values.price < 0) {
+              errors.price = 'Cena nie może być mniejsza od 0!';
             }
-            if (!values.mechanicId) {
-              errors.mechanicId = 'Nie wybrano mechanika!';
+            if (values.weight < 0) {
+              errors.weight = 'Waga nie może być mniejsza od 0!';
             }
-            if (!values.shift) {
-              errors.shift = 'Podaj zmianę!';
-            }
-            if (!values.publicationDate) {
-              errors.publicationDate = 'Data wystawienia zlecenia jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.publicationDate)) {
-              errors.publicationDate = 'Podana data jest nieprawidłowa!';
+            if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.expirationDate)) {
+              errors.expirationDate = 'Podana data jest nieprawidłowa!';
             }
             return errors;
           }}
@@ -127,12 +121,19 @@ const OrdersForm = () => {
                 {<p className="validationError">{errors.name && touched.name && errors.name}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Wybierz produkt:</Form.Label>
-                <ProductsSelect handleChange={handleChange} values={values} name="productId" />
-                {<p className="validationError">{errors.productId && touched.productId && errors.productId}</p>}
+                <Form.Label>Opis:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  placeholder="Opis produktu"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.description}
+                />
+                {<p className="validationError">{errors.description && touched.description && errors.description}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Podaj wymaganą ilość:</Form.Label>
+                <Form.Label>Podaj ilość na stanie:</Form.Label>
                 <Form.Control
                   type="number"
                   name="quantity"
@@ -140,56 +141,44 @@ const OrdersForm = () => {
                   onBlur={handleBlur}
                   value={values.quantity || 0}
                   min={0}
+                  disabled={!id && true}
                 />
                 {<p className="validationError">{errors.quantity && touched.quantity && errors.quantity}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Wybierz brygadzistę:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="managerId" />
-                {<p className="validationError">{errors.managerId && touched.managerId && errors.managerId}</p>}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Wybierz mechanika:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="mechanicId" />
-                {<p className="validationError">{errors.mechanicId && touched.mechanicId && errors.mechanicId}</p>}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Podaj numer zmiany:</Form.Label>
-                <Form.Select 
-                  name="shift"
+                <Form.Label>Podaj cenę za sztukę:</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="price"
                   onChange={handleChange}
-                  value={values.shift}
-                  defaultChecked={values?.shift}
-                >
-                  <option value="">Proszę wybrać opcję</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </Form.Select>
-                {<p className="validationError">{errors.shift && touched.shift && errors.shift}</p>}
+                  onBlur={handleBlur}
+                  value={values.price || 0}
+                  min={0}
+                />
+                {<p className="validationError">{errors.price && touched.price && errors.price}</p>}
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Podaj wagę w kg:</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="weight"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.weight || 0}
+                  min={0}
+                />
+                {<p className="validationError">{errors.weight && touched.weight && errors.weight}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Data zlecenia:</Form.Label>
                 <Form.Control
                   type="date"
-                  name="publicationDate"
+                  name="expirationDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.publicationDate || ''}
+                  value={values.expirationDate || ''}
                 />
-                {<p className="validationError">{errors.publicationDate && touched.publicationDate && errors.publicationDate}</p>}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Data wykonania:</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="executionDate"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.executionDate || ''}
-                  disabled={!id && true}
-                />
-                {<p className="validationError">{errors.executionDate && touched.executionDate && errors.executionDate}</p>}
+                {<p className="validationError">{errors.expirationDate && touched.expirationDate && errors.expirationDate}</p>}
               </Form.Group>
               <Button variant="outline-primary" type="submit" disabled={isSubmitting}>Zatwierdź</Button>
               <ReturnButton />
@@ -208,4 +197,4 @@ const OrdersForm = () => {
   }
 }
 
-export default OrdersForm;
+export default ProductsForm;

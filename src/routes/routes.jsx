@@ -21,6 +21,9 @@ import MachinesForm from '../components/production/machines/machines-form';
 import OrdersForm from '../components/production/orders/orders-form';
 import PermitsForm from '../components/production/permits/permits-form';
 
+import ServicesForm from '../components/maintenance/machines/machines-form';
+import RaportsForm from '../components/maintenance/raports/raports-form';
+
 import UsersList from '../components/users/users-list';
 import UserDetails from '../components/users/user-details';
 import UserEdit from '../components/users/user-edit';
@@ -88,6 +91,13 @@ const AppRoutes = () => {
 
           <Route path="permits/form" element={<PermitsForm />} />
           <Route path="permits/form/:id" element={<PermitsForm />} />
+
+          {/* Maintenance */}
+          <Route path="services/form" element={<ServicesForm />} />
+          <Route path="services/form/:id" element={<ServicesForm />} />
+
+          <Route path="raports/form" element={<RaportsForm />} />
+          <Route path="raports/form/:id" element={<RaportsForm />} />
         </Routes>
       </BrowserRouter>
     </div>
