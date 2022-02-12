@@ -11,9 +11,9 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'contracts';
+const END_POINT = 'permits';
 
-const ContractsForm = () => {
+const PermitsForm = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
@@ -35,9 +35,8 @@ const ContractsForm = () => {
 
   let initialValues = {
     employeeId: '',
-    contractType: '',
-    dateOfConclusion: '',
-    expirationDate: '',
+    exitTime: '',
+    returnTime: '',
   }
 
   if (isLoaded) {
@@ -48,7 +47,7 @@ const ContractsForm = () => {
 
     return (
       <div className='form'>
-        { formTitle(id, 'umowę') }
+        { formTitle(id, 'przepustkę') }
         
         <Formik 
           initialValues={initialValues}
@@ -57,18 +56,11 @@ const ContractsForm = () => {
             if (!values.employeeId) {
               errors.employeeId = 'Nie wybrano pracownika!';
             }
-            if (!values.contractType) {
-              errors.contractType = 'Wybierz z listy typ kontraktu!';
+            if (!values.exitTime) {
+              errors.exitTime = 'Podaj godzinę wyjścia!';
             }
-            if (!values.dateOfConclusion) {
-              errors.dateOfConclusion = 'Data zawarcia umowy jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfConclusion)) {
-              errors.dateOfConclusion = 'Podana data jest nieprawidłowa!';
-            }
-            if (!values.expirationDate) {
-              errors.expirationDate = 'Data zakończenia umowy jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.expirationDate)) {
-              errors.expirationDate = 'Podana data jest nieprawidłowa!';
+            if (!values.returnTime) {
+              errors.returnTime = 'Podaj godzinę powrotu!';
             }
             return errors;
           }}
@@ -98,47 +90,32 @@ const ContractsForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
+                <Form.Label>Wybierz pracownika:</Form.Label>
                 <EmployeesSelect handleChange={handleChange} values={values} />
                 {<p className="validationError">{errors.employeeId && touched.employeeId && errors.employeeId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Typ umowy:</Form.Label>
-                <Form.Select 
-                  name="contractType"
-                  onChange={handleChange}
-                  value={values.contractType}
-                  defaultChecked={values?.contractType}
-                >
-                  <option value="">Proszę wybrać opcję</option>
-                  <option value="1">Na okres próbny</option>
-                  <option value="2">Na czas określony</option>
-                  <option value="3">Na czas nieokreślony</option>
-                  <option value="4">Na czas wykonywania określonej pracy</option>
-                  <option value="5">Na zastępstwo</option>
-                </Form.Select>
-                {<p className="validationError">{errors.contractType && touched.contractType && errors.contractType}</p>}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Data zawarcia umowy:</Form.Label>
+                <Form.Label>Godzina wyjścia:</Form.Label>
                 <Form.Control
-                  type="date"
-                  name="dateOfConclusion"
+                  type="time"
+                  name="exitTime"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateOfConclusion || ''}
+                  value={values.exitTime}
                 />
-                {<p className="validationError">{errors.dateOfConclusion && touched.dateOfConclusion && errors.dateOfConclusion}</p>}
+                {<p className="validationError">{errors.exitTime && touched.exitTime && errors.exitTime}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Data zakończenia umowy:</Form.Label>
+                <Form.Label>Godzina powrotu:</Form.Label>
                 <Form.Control
-                  type="date"
-                  name="expirationDate"
+                  type="time"
+                  name="returnTime"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.expirationDate || ''}
+                  value={values.returnTime}
+                  min={values.exitTime}
                 />
-                {<p className="validationError">{errors.expirationDate && touched.expirationDate && errors.expirationDate}</p>}
+                {<p className="validationError">{errors.returnTime && touched.returnTime && errors.returnTime}</p>}
               </Form.Group>
               <Button variant="outline-primary" type="submit" disabled={isSubmitting}>Zatwierdź</Button>
               <ReturnButton />
@@ -157,4 +134,4 @@ const ContractsForm = () => {
   }
 }
 
-export default ContractsForm;
+export default PermitsForm;

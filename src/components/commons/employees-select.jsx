@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 
 import ApiQueries from '../../helpers/api-queries';
 
-const EmployeesSelect = ({ handleChange, values }) => {
+const EmployeesSelect = ({ handleChange, values, name = "employeeId" }) => {
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
@@ -21,7 +21,7 @@ const EmployeesSelect = ({ handleChange, values }) => {
 
     return (
       <Form.Select 
-        name="employeeId"
+        name={name}
         onChange={handleChange}
         value={values.employeeId}
         defaultChecked={values?.employeeId}

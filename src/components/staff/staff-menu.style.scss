@@ -1,0 +1,48 @@
+.staff-menu {
+  width: 90vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
+  
+  &__box {
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-employees {
+      background: #FFC759;
+    }
+
+    &-personal-data {
+      background: #FF7B9C;
+    }
+
+    &-trainings {
+      background: #607196;
+    }
+
+    &-insurances {
+      background: #BABFD1;
+    }
+
+    &-contracts {
+      background: #E8E9ED;
+    }
+
+    &-holidays {
+      background: #37371F;
+    }
+
+    &-salaries {
+      background: #0F1A20;
+    }
+  }
+
+  &__box:hover {
+    filter: brightness(80%);
+  }
+
+}

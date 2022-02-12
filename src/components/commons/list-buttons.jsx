@@ -27,7 +27,7 @@ const ListButtons = ({ endpoint, id, navigate, setIsLoaded, setMessage }) => {
           Szczegóły
         </Button>
       </td>
-      <td>
+      {/* <td>
         <Button 
           onClick={() => handleEdit()} 
           variant="outline-secondary"
@@ -42,7 +42,7 @@ const ListButtons = ({ endpoint, id, navigate, setIsLoaded, setMessage }) => {
         >
           Usuń
         </Button>
-      </td>
+      </td> */}
     </>
   )
 }

@@ -1,0 +1,32 @@
+.production-menu {
+  width: 90vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
+  
+  &__box {
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-machines {
+      background: #C1C1C1;
+    }
+
+    &-orders {
+      background: #2C4251;
+    }
+
+    &-permits {
+      background: #D16666;
+    }
+  }
+
+  &__box:hover {
+    filter: brightness(80%);
+  }
+
+}
