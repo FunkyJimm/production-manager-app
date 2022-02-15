@@ -9,7 +9,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'salary';
+const END_POINT = 'salaries';
 
 const SalariesList = () => {
   const navigate = useNavigate();

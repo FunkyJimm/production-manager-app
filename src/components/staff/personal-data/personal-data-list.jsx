@@ -9,7 +9,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'personaldata';
+const END_POINT = 'personaldatas';
 
 const PersonalDataList = () => {
   const navigate = useNavigate();

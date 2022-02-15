@@ -8,7 +8,7 @@ const EmployeesSelect = ({ handleChange, values, name = "employeeId" }) => {
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
-    ApiQueries.getItems('employee', setItems, setIsLoaded);
+    ApiQueries.getItems('employees', setItems, setIsLoaded);
   }, [isLoaded]);
   
   if (isLoaded) {

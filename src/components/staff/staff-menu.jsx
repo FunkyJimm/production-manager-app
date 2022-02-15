@@ -7,15 +7,15 @@ const StaffMenu = () => {
   const navigate = useNavigate()
 
   const handleBox = endpoint => {
-    navigate(endpoint, { replace: false }, [navigate]);
+    navigate(`/${endpoint}`, { replace: false }, [navigate]);
   }
 
   return (
     <div className="staff-menu">
-      <Container>
+      <Container fluid>
         <Row>
           <Col md={12}>
-            <div className="staff-menu__box staff-menu__box-employees" onClick={() => handleBox('employee')}>
+            <div className="staff-menu__box staff-menu__box-employees" onClick={() => handleBox('employees')}>
               <h2>Pracownicy</h2>
             </div>
           </Col>

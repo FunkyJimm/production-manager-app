@@ -9,7 +9,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'employee';
+const END_POINT = 'employees';
 
 const EmployeesList = () => {
   const navigate = useNavigate();

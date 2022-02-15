@@ -1,5 +1,5 @@
 .staff-menu {
-  width: 90vw;
+  width: 85vw;
   height: 100vh;
   display: flex;
   flex-flow: column nowrap;
@@ -7,37 +7,44 @@
   align-content: center;
   
   &__box {
+    width: 100% !important;
     height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    h2 {
+      font-size: 3rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
     &-employees {
-      background: #FFC759;
+      background: #EEEEEE;
     }
 
     &-personal-data {
-      background: #FF7B9C;
+      background: #AAD8D3;
     }
 
     &-trainings {
-      background: #607196;
+      background: #AAD8D3;
     }
 
     &-insurances {
-      background: #BABFD1;
+      background: #EEEEEE;
     }
 
     &-contracts {
-      background: #E8E9ED;
+      background: #EEEEEE;
     }
 
     &-holidays {
-      background: #37371F;
+      background: #00ADB5;
     }
 
     &-salaries {
-      background: #0F1A20;
+      background: #00ADB5;
     }
   }
 

@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { CookieProvider } from 'react-cookie';
 
 import App from '../App';
 
@@ -10,6 +12,7 @@ import HolidaysForm from '../components/staff/holidays/holidays-form';
 import HolidaysList from '../components/staff/holidays/holidays-list';
 import InsurancesForm from '../components/staff/insurances/insurances-form';
 import InsurancesList from '../components/staff/insurances/insurances-list';
+import PersonalDataDetails from '../components/staff/personal-data/personal-data-details';
 import PersonalDataForm from '../components/staff/personal-data/personal-data-form';
 import PersonalDataList from '../components/staff/personal-data/personal-data-list';
 import SalariesForm from '../components/staff/salaries/salaries-form';
@@ -24,145 +27,111 @@ import PermitsForm from '../components/production/permits/permits-form';
 import ServicesForm from '../components/maintenance/machines/machines-form';
 import RaportsForm from '../components/maintenance/raports/raports-form';
 
+import ProductsForm from '../components/warehouse/products/products-form';
+import ShippingsForm from '../components/warehouse/shippings/shippings-form';
+
 import UsersList from '../components/users/users-list';
 import UserDetails from '../components/users/user-details';
 import UserEdit from '../components/users/user-edit';
 
+import ProductionMenu from '../components/production/production-menu';
 import StaffMenu from '../components/staff/staff-menu';
 
 import AsideMenu from '../components/aside-menu/aside-menu';
+import NavMenu from '../components/nav-menu/nav-menu';
 
-import './main.scss';
 import EmployeesDetails from '../components/staff/employees/employees-details';
 import ContractsDetails from '../components/staff/contracts/contracts-details';
 
+import Login from '../components/session/login';
+
+import './main.scss';
+
 const AppRoutes = () => {
+  const [isLogged, setIsLogged] = useState(false);
+
   return (
     <div className="main">
       <AsideMenu />
-        <BrowserRouter>
-        <Routes>
-          <Route exact path="/staff" element={<StaffMenu />} />
+      <div className="container">
+        <NavMenu />
+          <BrowserRouter>
+          <Routes>
+            <Route exact path="/" element={<Login setIsLogged={setIsLogged} />} />
 
-          {/* Employess */}
-          <Route path="staff/employee" element={<EmployeesList />} />
-          <Route path="staff/employee/form" element={<EmployeesForm />} />
-          <Route path="staff/employee/form/:id" element={<EmployeesForm />} />
+            <Route path="/staff" element={<StaffMenu />} />
 
-          {/* Contracts */}
-          <Route path="staff/contracts" element={<ContractsList />} />
-          <Route path="staff/contracts/form" element={<ContractsForm />} />
-          <Route path="staff/contracts/form/:id" element={<ContractsForm />} />
+            {/* Employess */}
+            <Route path="/employees" element={<EmployeesList />} />
+            <Route path="/employees/:id" element={<EmployeesDetails />} />
+            <Route path="/employees/form" element={<EmployeesForm />} />
+            <Route path="/employees/form/:id" element={<EmployeesForm />} />
 
-          {/* Holidays */}
-          <Route path="staff/holidays" element={<HolidaysList />} />
-          <Route path="staff/holidays/form" element={<HolidaysForm />} />
-          <Route path="staff/holidays/form/:id" element={<HolidaysForm />} />
+            {/* Contracts */}
+            <Route path="/contracts" element={<ContractsList />} />
+            <Route path="/contracts/form" element={<ContractsForm />} />
+            <Route path="/contracts/form/:id" element={<ContractsForm />} />
 
-          {/* Insurances */}
-          <Route path="staff/insurances" element={<InsurancesList />} />
-          <Route path="staff/insurances/form/" element={<InsurancesForm />} />
-          <Route path="staff/insurances/form/:id" element={<InsurancesForm />} />
+            {/* Holidays */}
+            <Route path="/holidays" element={<HolidaysList />} />
+            <Route path="/holidays/form" element={<HolidaysForm />} />
+            <Route path="/holidays/form/:id" element={<HolidaysForm />} />
 
-          {/* Personal data */}
-          <Route path="staff/personaldata/" element={<PersonalDataList />} />
-          <Route path="staff/personaldata/form" element={<PersonalDataForm />} />
-          <Route path="staff/personaldata/form/:id" element={<PersonalDataForm />} />
+            {/* Insurances */}
+            <Route path="/insurances" element={<InsurancesList />} />
+            <Route path="/insurances/form/" element={<InsurancesForm />} />
+            <Route path="/insurances/form/:id" element={<InsurancesForm />} />
 
-          {/* Salaries data */}
-          <Route path="staff/salaries" element={<SalariesList />} />
-          <Route path="staff/salaries/form" element={<SalariesForm />} />
-          <Route path="staff/salaries/form/:id" element={<SalariesForm />} />
+            {/* Personal data */}
+            <Route path="/personaldatas/" element={<PersonalDataList />} />
+            <Route path="/personaldatas/:id" element={<PersonalDataDetails />} />
+            <Route path="/personaldatas/form" element={<PersonalDataForm />} />
+            <Route path="/personaldatas/form/:id" element={<PersonalDataForm />} />
 
-          {/* Trainings data */}
-          <Route path="staff/trainings" element={<TrainingsList />} />
-          <Route path="staff/trainings/form" element={<TrainingsForm />} />
-          <Route path="staff/trainings/form/:id" element={<TrainingsForm />} />
+            {/* Salaries data */}
+            <Route path="/salaries" element={<SalariesList />} />
+            <Route path="/salaries/form" element={<SalariesForm />} />
+            <Route path="/salaries/form/:id" element={<SalariesForm />} />
 
-          <Route path="test" element={<ContractsDetails />} />
-          <Route path="test/:id" element={<ContractsDetails />} />
+            {/* Trainings data */}
+            <Route path="/trainings" element={<TrainingsList />} />
+            <Route path="/trainings/form" element={<TrainingsForm />} />
+            <Route path="/trainings/form/:id" element={<TrainingsForm />} />
 
-          {/* Production */}
-          <Route path="machines/form" element={<MachinesForm />} />
-          <Route path="machines/form/:id" element={<MachinesForm />} />
+            <Route path="test" element={<ContractsDetails />} />
+            <Route path="test/:id" element={<ContractsDetails />} />
 
-          <Route path="orders/form" element={<OrdersForm />} />
-          <Route path="orders/form/:id" element={<OrdersForm />} />
+            {/* Production */}
+            <Route path="/production" element={<ProductionMenu />} />
+            
+            <Route path="shifts/form" element={<MachinesForm />} />
+            <Route path="shifts/form/:id" element={<MachinesForm />} />
 
-          <Route path="permits/form" element={<PermitsForm />} />
-          <Route path="permits/form/:id" element={<PermitsForm />} />
+            <Route path="orders/form" element={<OrdersForm />} />
+            <Route path="orders/form/:id" element={<OrdersForm />} />
 
-          {/* Maintenance */}
-          <Route path="services/form" element={<ServicesForm />} />
-          <Route path="services/form/:id" element={<ServicesForm />} />
+            <Route path="permits/form" element={<PermitsForm />} />
+            <Route path="permits/form/:id" element={<PermitsForm />} />
 
-          <Route path="raports/form" element={<RaportsForm />} />
-          <Route path="raports/form/:id" element={<RaportsForm />} />
-        </Routes>
-      </BrowserRouter>
+            {/* Maintenance */}
+            <Route path="machines/form" element={<ServicesForm />} />
+            <Route path="machines/form/:id" element={<ServicesForm />} />
+
+            <Route path="raports/form" element={<RaportsForm />} />
+            <Route path="raports/form/:id" element={<RaportsForm />} />
+
+            {/* Warehouse */}
+            <Route path="products/form" element={<ProductsForm />} />
+            <Route path="products/form/:id" element={<ProductsForm />} />
+
+            <Route path="shippings/form" element={<ShippingsForm />} />
+            <Route path="shippings/form/:id" element={<ShippingsForm />} />
+          </Routes>
+          {/* <Footer /> */}
+        </BrowserRouter>
+      </div>
     </div>
   )
-  // ZAGNIEŻDZANIE!
-  // return (
-  //   <BrowserRouter>
-  //     <Routes>
-  //       <Route path="/" element={<PersonalDataForm />}>
-  //         <Route path=":id" element={<PersonalDataForm />} />
-  //       </Route>
-  //     </Routes>
-  //   </BrowserRouter>
-  // )
-  // return (
-  //   <BrowserRouter>
-  //     <Routes>
-  //       {/* Main site */}
-  //       <Route exact path="/" element={<App />} />
-
-  //       {/* Categories */}
-  //       <Route path="/staff" element={<StaffMenu />} />
-
-        // {/* Employess */}
-        // <Route path="staff/employee" element={<EmployeesList />} />
-        // <Route path="staff/employee/form" element={<EmployeesForm />} />
-        // <Route path="staff/employee/form/:id" element={<EmployeesForm />} />
-
-        // {/* Contracts */}
-        // <Route path="staff/contracts" element={<ContractsList />} />
-        // <Route path="staff/contracts/form" element={<ContractsForm />} />
-        // <Route path="staff/contracts/form/:id" element={<ContractsForm />} />
-
-        // {/* Holidays */}
-        // <Route path="staff/holidays" element={<HolidaysList />} />
-        // <Route path="staff/holidays/form" element={<HolidaysForm />} />
-        // <Route path="staff/holidays/form/:id" element={<HolidaysForm />} />
-
-        // {/* Insurances */}
-        // <Route path="staff/insurances" element={<InsurancesList />} />
-        // <Route path="staff/insurances/form/" element={<InsurancesForm />} />
-        // <Route path="staff/insurances/form/:id" element={<InsurancesForm />} />
-
-        // {/* Personal data */}
-        // <Route path="staff/personaldata/" element={<PersonalDataList />} />
-        // <Route path="staff/personaldata/form" element={<PersonalDataForm />} />
-        // <Route path="staff/personaldata/form/:id" element={<PersonalDataForm />} />
-
-        // {/* Salaries data */}
-        // <Route path="staff/salaries" element={<SalariesList />} />
-        // <Route path="staff/salaries/form" element={<SalariesForm />} />
-        // <Route path="staff/salaries/form/:id" element={<SalariesForm />} />
-
-        // {/* Trainings data */}
-        // <Route path="staff/trainings" element={<TrainingsList />} />
-        // <Route path="staff/trainings/form" element={<TrainingsForm />} />
-        // <Route path="staff/trainings/form/:id" element={<TrainingsForm />} />
-
-        // {/* Users */}
-        // <Route path="staff/users" element={<UsersList />} />
-        // <Route path="staff/users/:id" element={<UserDetails />}/>
-        // <Route path="staff/users/edit/:id" element={<UserEdit />}/>
-  //     </Routes>
-  //   </BrowserRouter>
-  // )
 }
 
 export default AppRoutes;

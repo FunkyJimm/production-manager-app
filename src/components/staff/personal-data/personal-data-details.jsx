@@ -7,9 +7,9 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'employees';
+const END_POINT = 'personaldatas';
 
-const EmployeesDetails = () => {
+const PersonalDataDetails = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
@@ -26,13 +26,15 @@ const EmployeesDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { firstName, lastName, pesel } = data;
+    const { firstName, secondName, lastName, pesel, parentsNames, dateOfBirth, education, address, phoneNumber, email } = data;
+    const { fatherName, motherName } = parentsNames;
+    const { street, house, apartment, zipCode, city } = address;
 
     return (
       <div className="details">
         <Container fluid>
           <Row>
-            <h1>Szczegóły pracownika</h1>
+            <h1>Dane osobowe pracownika</h1>
           </Row>
           <Row>
             <Table striped bordered hover>
@@ -48,6 +50,10 @@ const EmployeesDetails = () => {
                   <td>{firstName}</td>
                 </tr>
                 <tr>
+                  <td>Drugie imię:</td>
+                  <td>{secondName}</td>
+                </tr>
+                <tr>
                   <td>Nazwisko:</td>
                   <td>{lastName}</td>
                 </tr>
@@ -56,28 +62,48 @@ const EmployeesDetails = () => {
                   <td>{pesel}</td>
                 </tr>
                 <tr>
-                  <td>Dane osobiste:</td>
-                  <td>LINK</td>
+                  <td>Imię ojca:</td>
+                  <td>{fatherName}</td>
                 </tr>
                 <tr>
-                  <td>Szkolenia:</td>
-                  <td>LINK</td>
+                  <td>Imię matki:</td>
+                  <td>{motherName}</td>
                 </tr>
                 <tr>
-                  <td>Ubezpieczenia:</td>
-                  <td>LINK</td>
+                  <td>Data urodzenia:</td>
+                  <td>{dateOfBirth}</td>
                 </tr>
                 <tr>
-                  <td>Umowy:</td>
-                  <td>LINK</td>
+                  <td>Wykształcenie:</td>
+                  <td>{education}</td>
                 </tr>
                 <tr>
-                  <td>Urlopy:</td>
-                  <td>LINK</td>
+                  <td>Ulica:</td>
+                  <td>{street}</td>
                 </tr>
                 <tr>
-                  <td>Wynagrodzenia:</td>
-                  <td>LINK</td>
+                  <td>Nr domu:</td>
+                  <td>{house}</td>
+                </tr>
+                <tr>
+                  <td>Nr mieszkania:</td>
+                  <td>{apartment}</td>
+                </tr>
+                <tr>
+                  <td>Kod pocztowy:</td>
+                  <td>{zipCode}</td>
+                </tr>
+                <tr>
+                  <td>Miasto:</td>
+                  <td>{city}</td>
+                </tr>
+                <tr>
+                  <td>Nr telefonu:</td>
+                  <td>{phoneNumber}</td>
+                </tr>
+                <tr>
+                  <td>Adres email:</td>
+                  <td>{email}</td>
                 </tr>
               </tbody>
             </Table>
@@ -95,4 +121,4 @@ const EmployeesDetails = () => {
   }
 }
 
-export default EmployeesDetails;
+export default PersonalDataDetails;

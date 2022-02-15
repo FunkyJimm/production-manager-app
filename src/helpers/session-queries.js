@@ -4,7 +4,7 @@ import config from '../config/config';
 import errorsHandler from '../errors/errors-messages';
 
 const login = async function(values, setMessage, setErrMessage, setIsLogged) {
-  await axios.post(`${config.API_URL}/login`, values)
+  await axios.post(`${config.API_URL}/login`, values, { withCredentials: true })
     .then(res => {
       localStorage.setItem("userName", res.data.name);
       localStorage.setItem("isLogged", "true");

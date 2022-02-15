@@ -12,7 +12,7 @@ import ApiQueries from '../../../helpers/api-queries';
 
 // TODO: NAPRAWIĆ WALIDACJĘ RODZICÓW I ADRESU
 
-const END_POINT = 'personaldata';
+const END_POINT = 'personaldatas';
 
 const PersonalDataForm = () => {
   const { id } = useParams();
@@ -254,8 +254,8 @@ const PersonalDataForm = () => {
                   <option value="">Proszę wybrać opcję</option>
                   <option value="1">Podstawowe</option>
                   <option value="2">Gimnazjalne</option>
-                  <option value="3">Zasadiczo-zawodowe</option>
-                  <option value="4">Zasadiczo-branżowe</option>
+                  <option value="3">Zasadniczo-zawodowe</option>
+                  <option value="4">Zasadniczo-branżowe</option>
                   <option value="5">Średnie</option>
                   <option value="6">Średnie-branżowe</option>
                   <option value="7">Wyższe</option>

@@ -1,0 +1,29 @@
+.nav-menu {
+  background: #222831;
+  box-shadow: 5px 0px 25px #222831;
+  width: 85vw;
+  height: 5vh;
+  display: flex;
+  justify-content: space;
+  align-items: center;
+
+  &__links {
+    width: 90%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+
+    .link {
+      width: 20vh;
+      color: #fff;
+    }
+  }
+
+  &__panel {
+    color: #fff;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: end;
+    align-items: center;
+  }
+}

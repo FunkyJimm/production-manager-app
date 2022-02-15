@@ -4,7 +4,7 @@ import config from '../config/config';
 import errorsHandler from '../errors/errors-messages';
 
 const getItems = async function(endpoint, setItems, setIsLoaded, setMessage) {
-  await axios.get(`${config.API_URL}/${endpoint}`)
+  await axios.get(`${config.API_URL}/${endpoint}`, { withCredentials: true })
     .then(res => {
       setItems(res.data);
       setIsLoaded(true);
@@ -16,7 +16,7 @@ const getItems = async function(endpoint, setItems, setIsLoaded, setMessage) {
 }
 
 const getItemDetails = async function(endpoint, id, setItems, setIsLoaded) {
-  await axios.get(`${config.API_URL}/${endpoint}/${id}`)
+  await axios.get(`${config.API_URL}/${endpoint}/${id}`, { withCredentials: true })
     .then(res => {
       setItems(res.data);
       setIsLoaded(true);
@@ -24,7 +24,7 @@ const getItemDetails = async function(endpoint, id, setItems, setIsLoaded) {
 }
 
 const addItem = async function(endpoint, values, setMessage, setErrMessage) {
-  await axios.post(`${config.API_URL}/${endpoint}`, values)
+  await axios.post(`${config.API_URL}/${endpoint}`, values, { withCredentials: true })
   .then(res => {
     console.log(res.data.status);
     setMessage('Wprowadzono pomyślnie!');
@@ -36,7 +36,7 @@ const addItem = async function(endpoint, values, setMessage, setErrMessage) {
 }
 
 const updateItem = async function(endpoint, id, values, setMessage, setErrMessage) {
-  await axios.put(`${config.API_URL}/${endpoint}/${id}`, values)
+  await axios.put(`${config.API_URL}/${endpoint}/${id}`, values, { withCredentials: true })
     .then(res => {
       console.log(res.data.status);
       setMessage('Wprowadzono pomyślnie!');
@@ -50,7 +50,7 @@ const updateItem = async function(endpoint, id, values, setMessage, setErrMessag
 const deleteItem = async function(endpoint, id) {
   let message = '';
 
-  axios.delete(`${config.API_URL}/${endpoint}/${id}`)
+  axios.delete(`${config.API_URL}/${endpoint}/${id}`, { withCredentials: true })
   .then(res => {
     console.log(res.data.status);
     message = res.data.status;

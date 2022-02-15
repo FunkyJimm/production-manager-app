@@ -1,8 +1,31 @@
 .aside-menu {
-  width: 10vw;
+  background: #222831;
+  box-shadow: 5px 0px 25px #222831;
+  width: 15vw;
   height: 100vh;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: top;
   align-items: center;
+  z-index: 1;
+
+  &-accordion {
+    width: 100%;
+  }
+
+  .href {
+    color: black;
+    text-decoration: none;
+  }
+
+  .href:hover {
+    color: blue;
+  }
+
+  .footer {
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    align-items: flex-end;
+  }
 }
