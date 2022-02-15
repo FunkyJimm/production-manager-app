@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Table, Row } from 'react-bootstrap';
 
+import EmployeeDetails from '../../commons/employee-details';
 import Loading from '../../loading/loading';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'holidays';
+import Config from '../../../config/config';
 
 const HolidaysDetails = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const HolidaysDetails = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.HOLIDAYS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -25,7 +26,7 @@ const HolidaysDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { totalVacationsDays, takenVacationsDays, takenDuvetDays, daysOfSickness, daysOfAbsenceFromWork } = data;
+    const { employeeId, totalVacationsDays, takenVacationsDays, takenDuvetDays, daysOfSickness, daysOfAbsenceFromWork } = data;
 
     return (
       <div className="details">
@@ -42,6 +43,7 @@ const HolidaysDetails = () => {
                 </tr>
               </thead>
               <tbody>
+                <EmployeeDetails employeeId={employeeId} />
                 <tr>
                   <td>Wszystkie dni urlopu:</td>
                   <td>{totalVacationsDays}</td>

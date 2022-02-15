@@ -6,8 +6,9 @@ import Loading from '../../loading/loading';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'personaldatas';
+import Config from '../../../config/config';
 
 const PersonalDataDetails = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const PersonalDataDetails = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.PERSONAL_DATA, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -71,7 +72,7 @@ const PersonalDataDetails = () => {
                 </tr>
                 <tr>
                   <td>Data urodzenia:</td>
-                  <td>{dateOfBirth}</td>
+                  <td>{DateConverters.dateOnlyConverter(dateOfBirth)}</td>
                 </tr>
                 <tr>
                   <td>Wykształcenie:</td>

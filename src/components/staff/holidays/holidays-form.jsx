@@ -11,7 +11,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'holidays';
+import Config from '../../../config/config';
 
 const HolidaysForm = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ const HolidaysForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.HOLIDAYS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -80,12 +80,12 @@ const HolidaysForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.HOLIDAYS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.HOLIDAYS, id, values, setMessage, setErrMessage);
             }
   
-            if (!message) {
+            if (message) {
               setSubmitting(false);
               resetForm();
             }

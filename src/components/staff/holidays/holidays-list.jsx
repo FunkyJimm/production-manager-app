@@ -9,7 +9,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'holidays';
+import Config from '../../../config/config';
 
 const HolidaysList = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const HolidaysList = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(END_POINT, setItems, setIsLoaded, setMessage);
+    ApiQueries.getItems(Config.HOLIDAYS, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const HolidaysList = () => {
             <td>{holidays.takenDuvetDays}</td>
             <td>{holidays.daysOfSickness}</td>
             <td>{holidays.daysOfAbsenceFromWork}</td>
-            <ListButtons endpoint={END_POINT} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <ListButtons endpoint={Config.HOLIDAYS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })

@@ -8,8 +8,9 @@ import ListButtons from '../../commons/list-buttons';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'contracts';
+import Config from '../../../config/config';
 
 const ContractsList = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ContractsList = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(END_POINT, setItems, setIsLoaded, setMessage);
+    ApiQueries.getItems(Config.CONTRACTS, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -36,9 +37,9 @@ const ContractsList = () => {
           <tr key={id}>
             <td>{index + 1}</td>
             <td>{contract.contractType}</td>
-            <td>{contract.dateOfConclusion}</td>
-            <td>{contract.expirationDate}</td>
-            <ListButtons endpoint={END_POINT} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <td>{DateConverters.dateOnlyConverter(contract.dateOfConclusion)}</td>
+            <td>{DateConverters.dateOnlyConverter(contract.expirationDate)}</td>
+            <ListButtons endpoint={Config.CONTRACTS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })

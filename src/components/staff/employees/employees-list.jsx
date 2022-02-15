@@ -9,7 +9,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'employees';
+import Config from '../../../config/config';
 
 const EmployeesList = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const EmployeesList = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(END_POINT, setItems, setIsLoaded, setMessage);
+    ApiQueries.getItems(Config.EMPLOYEES, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const EmployeesList = () => {
             <td>{employee.firstName}</td>
             <td>{employee.lastName}</td>
             <td>{employee.pesel}</td>
-            <ListButtons endpoint={END_POINT} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <ListButtons endpoint={Config.EMPLOYEES} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })

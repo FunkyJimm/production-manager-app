@@ -3,16 +3,16 @@ import { useParams } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 
+import EmployeesSelect from '../../commons/employees-select';
 import Loading from '../../loading/loading';
 
 import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-// TODO: NAPRAWIĆ WALIDACJĘ RODZICÓW I ADRESU
-
-const END_POINT = 'personaldatas';
+import Config from '../../../config/config';
 
 const PersonalDataForm = () => {
   const { id } = useParams();
@@ -23,7 +23,7 @@ const PersonalDataForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.PERSONAL_DATA, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -35,6 +35,7 @@ const PersonalDataForm = () => {
   }
 
   let initialValues = {
+    employeeId: '',
     firstName: '',
     secondName: '',
     lastName: '',
@@ -70,6 +71,9 @@ const PersonalDataForm = () => {
           initialValues={initialValues}
           validate={values => {
             const errors = {};
+            if (!values.employeeId) {
+              errors.employeeId = 'Nie wybrano pracownika!';
+            }
             if (!values.firstName) {
               errors.firstName = 'Imię jest wymagane!';
             } else if (values.firstName.length < 2) {
@@ -94,8 +98,7 @@ const PersonalDataForm = () => {
             } else if (!/^\d{11}$/i.test(values.pesel)) {
               errors.pesel = 'Wprowadzony numer PESEL jest nieprawidłowy!';
             }
-            // TODO
-            if (values.parentsNames.fatherName.length < 2) {
+            if (values.parentsNames.fatherName < 2) {
               errors.fatherName = 'Imię ojca jest za krótkie!';
             } else if (values.parentsNames.fatherName.length > 32) {
               errors.fatherName = 'Imię ojca jest za długie!';
@@ -113,13 +116,21 @@ const PersonalDataForm = () => {
             if (!values.education) {
               errors.education = 'Musisz wybrać wykształcenie!';
             }
-            // TODO
             if (!values.address.street) {
               errors.street = 'Ulica jest wymagana!';
             } else if (values.address.street.length < 2) {
               errors.street = 'Nazwa ulicy jest za krótka!';
             } else if (values.address.street.length > 32) {
               errors.street = 'Nazwa ulicy jest za długa!';
+            }
+            if (!values.address.house) {
+              errors.house = 'Numer domu jest wymagany!';
+            }
+            if (!/([0-9]{2}-[0-9]{3})/i.test(values.address.zipCode)) {
+              errors.zipCode = 'Kod pocztowy jest nieprawidłowy!';
+            }
+            if (!values.address.city) {
+              errors.city = 'Nazwa miasta jest wymagana!';
             }
             if (!/(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/i.test(values.phoneNumber)) {
               errors.phoneNumber = 'Wprowadzony nr telefonu jest nieprawidłowy!';
@@ -133,12 +144,12 @@ const PersonalDataForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.PERSONAL_DATA, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.PERSONAL_DATA, id, values, setMessage, setErrMessage);
             }
   
-            if (!message) {
+            if (message) {
               setSubmitting(false);
               resetForm();
             }
@@ -154,6 +165,10 @@ const PersonalDataForm = () => {
             isSubmitting,
           }) => (
             <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <EmployeesSelect handleChange={handleChange} values={values} />
+                {<p className="validationError">{errors.employeeId && touched.employeeId && errors.employeeId}</p>}
+              </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Imię:</Form.Label>
                 <Form.Control
@@ -199,6 +214,7 @@ const PersonalDataForm = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.pesel}
+                  disabled={id && true}
                 />
                 {<p className="validationError">{errors.pesel && touched.pesel && errors.pesel}</p>}
               </Form.Group>
@@ -214,7 +230,7 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.parentsNames.fatherName}
                     />
-                    {<p className="validationError">{errors.fatherName && touched.fatherName && errors.fatherName}</p>}
+                    {<p className="validationError">{errors.fatherName && touched.parentsNames?.fatherName && errors.fatherName}</p>}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -228,7 +244,7 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.parentsNames.motherName}
                     />
-                    {<p className="validationError">{errors.motherName && touched.motherName && errors.motherName}</p>}
+                    {<p className="validationError">{errors.motherName && touched.parentsNames?.motherName && errors.motherName}</p>}
                   </Form.Group>
                 </Col>
               </Row>
@@ -239,7 +255,7 @@ const PersonalDataForm = () => {
                   name="dateOfBirth"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateOfBirth || ''}
+                  value={values.dateOfBirth ? DateConverters.formDateConverter(values.dateOfBirth) : values.dateOfBirth}
                 />
                 {<p className="validationError">{errors.dateOfBirth && touched.dateOfBirth && errors.dateOfBirth}</p>}
               </Form.Group>
@@ -274,7 +290,7 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.address.street}
                     />
-                    {<p className="validationError">{errors.street && touched.street && errors.street}</p>}
+                    {<p className="validationError">{errors.street && touched.address?.street && errors.street}</p>}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -288,7 +304,7 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.address.house}
                     />
-                    {<p className="validationError">{errors.house && touched.house && errors.house}</p>}
+                    {<p className="validationError">{errors.house && touched.address?.house && errors.house}</p>}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -302,7 +318,6 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.address.apartment}
                     />
-                    {<p className="validationError">{errors.apartment && touched.apartment && errors.apartment}</p>}
                   </Form.Group>
                 </Col>
               </Row>
@@ -318,7 +333,7 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.address.zipCode}
                     />
-                    {<p className="validationError">{errors.zipCode && touched.zipCode && errors.zipCode}</p>}
+                    {<p className="validationError">{errors.zipCode && touched.address?.zipCode && errors.zipCode}</p>}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -332,7 +347,7 @@ const PersonalDataForm = () => {
                       onBlur={handleBlur}
                       value={values.address.city}
                     />
-                    {<p className="validationError">{errors.city && touched.city && errors.city}</p>}
+                    {<p className="validationError">{errors.city && touched.address?.city && errors.city}</p>}
                   </Form.Group>
                 </Col>
               </Row>

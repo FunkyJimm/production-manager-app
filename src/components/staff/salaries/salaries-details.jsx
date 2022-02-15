@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Table, Row } from 'react-bootstrap';
 
@@ -7,18 +7,17 @@ import Loading from '../../loading/loading';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
-import DateConverters from '../../../helpers/date-converters';
 
 import Config from '../../../config/config';
 
-const InsurancesDetails = () => {
+const SalariesDetails = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(Config.INSURANCES, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.SALARIES, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -27,7 +26,7 @@ const InsurancesDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { employeeId, name, type, amount, dateFrom, dateTo } = data;
+    const { employeeId, basic, bonus, accessories } = data;
 
     return (
       <div className="details">
@@ -46,24 +45,16 @@ const InsurancesDetails = () => {
               <tbody>
                 <EmployeeDetails employeeId={employeeId} />
                 <tr>
-                  <td>Nazwa:</td>
-                  <td>{name}</td>
+                  <td>Wynagrodzenie podstawowe:</td>
+                  <td>{basic}</td>
                 </tr>
                 <tr>
-                  <td>Typ umowy:</td>
-                  <td>{type}</td>
+                  <td>Premia:</td>
+                  <td>{bonus}</td>
                 </tr>
                 <tr>
-                  <td>Kwota ubezpieczenia:</td>
-                  <td>{amount}</td>
-                </tr>
-                <tr>
-                  <td>Data zawarcia umowy:</td>
-                  <td>{DateConverters.dateOnlyConverter(dateFrom)}</td>
-                </tr>
-                <tr>
-                  <td>Data zakończenia umowy:</td>
-                  <td>{DateConverters.dateOnlyConverter(dateTo)}</td>
+                  <td>Wynagrodzenie dodatkowe:</td>
+                  <td>{accessories}</td>
                 </tr>
               </tbody>
             </Table>
@@ -81,4 +72,4 @@ const InsurancesDetails = () => {
   }
 }
 
-export default InsurancesDetails;
+export default SalariesDetails;

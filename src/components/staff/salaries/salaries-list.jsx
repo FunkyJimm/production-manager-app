@@ -9,7 +9,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'salaries';
+import Config from '../../../config/config';
 
 const SalariesList = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const SalariesList = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(END_POINT, setItems, setIsLoaded, setMessage);
+    ApiQueries.getItems(Config.SALARIES, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const SalariesList = () => {
             <td>{salary.basic}</td>
             <td>{salary.bonus}</td>
             <td>{salary.accessories}</td>
-            <ListButtons endpoint={END_POINT} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <ListButtons endpoint={Config.SALARIES} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })

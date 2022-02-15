@@ -10,8 +10,9 @@ import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'contracts';
+import Config from '../../../config/config';
 
 const ContractsForm = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const ContractsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.CONTRACTS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -43,7 +44,7 @@ const ContractsForm = () => {
   if (isLoaded) {
     if (id) {
       const { data } = items;
-      initialValues = { ...data }; 
+      initialValues = { ...data };
     }
 
     return (
@@ -76,12 +77,12 @@ const ContractsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.CONTRACTS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.CONTRACTS, id, values, setMessage, setErrMessage);
             }
   
-            if (!message) {
+            if (message) {
               setSubmitting(false);
               resetForm();
             }
@@ -125,7 +126,7 @@ const ContractsForm = () => {
                   name="dateOfConclusion"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateOfConclusion || ''}
+                  value={values.dateOfConclusion ? DateConverters.formDateConverter(values.dateOfConclusion) : values.dateOfConclusion}
                 />
                 {<p className="validationError">{errors.dateOfConclusion && touched.dateOfConclusion && errors.dateOfConclusion}</p>}
               </Form.Group>
@@ -136,7 +137,7 @@ const ContractsForm = () => {
                   name="expirationDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.expirationDate || ''}
+                  value={values.expirationDate ? DateConverters.formDateConverter(values.expirationDate) : values.expirationDate}
                 />
                 {<p className="validationError">{errors.expirationDate && touched.expirationDate && errors.expirationDate}</p>}
               </Form.Group>

@@ -10,8 +10,9 @@ import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'trainings';
+import Config from '../../../config/config';
 
 const TrainingsForm = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const TrainingsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.TRAININGS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -88,12 +89,12 @@ const TrainingsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.TRAININGS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.TRAININGS, id, values, setMessage, setErrMessage);
             }
   
-            if (!message) {
+            if (message) {
               setSubmitting(false);
               resetForm();
             }
@@ -144,7 +145,7 @@ const TrainingsForm = () => {
                   name="dateOfTraining"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateOfTraining || ''}
+                  value={values.dateOfTraining ? DateConverters.formDateConverter(values.dateOfTraining) : values.dateOfTraining}
                 />
                 {<p className="validationError">{errors.dateOfTraining && touched.dateOfTraining && errors.dateOfTraining}</p>}
               </Form.Group>
@@ -155,7 +156,7 @@ const TrainingsForm = () => {
                   name="expirationDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.expirationDate || ''}
+                  value={values.expirationDate ? DateConverters.formDateConverter(values.expirationDate) : values.expirationDate}
                 />
                 {<p className="validationError">{errors.expirationDate && touched.expirationDate && errors.expirationDate}</p>}
               </Form.Group>

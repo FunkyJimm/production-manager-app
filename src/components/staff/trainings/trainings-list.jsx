@@ -8,8 +8,9 @@ import ListButtons from '../../commons/list-buttons';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'trainings';
+import Config from '../../../config/config';
 
 const TrainingsList = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const TrainingsList = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(END_POINT, setItems, setIsLoaded, setMessage);
+    ApiQueries.getItems(Config.TRAININGS, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -37,9 +38,9 @@ const TrainingsList = () => {
             <td>{index + 1}</td>
             <td>{training.title}</td>
             <td>{training.description}</td>
-            <td>{training.dateOfTraining}</td>
-            <td>{training.expirationDate}</td>
-            <ListButtons endpoint={END_POINT} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <td>{DateConverters.dateOnlyConverter(training.dateOfTraining)}</td>
+            <td>{DateConverters.dateOnlyConverter(training.expirationDate)}</td>
+            <ListButtons endpoint={Config.TRAININGS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })

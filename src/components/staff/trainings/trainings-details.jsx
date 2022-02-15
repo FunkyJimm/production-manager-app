@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Table, Row } from 'react-bootstrap';
 
@@ -11,14 +11,14 @@ import DateConverters from '../../../helpers/date-converters';
 
 import Config from '../../../config/config';
 
-const InsurancesDetails = () => {
+const TrainingsDetails = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(Config.INSURANCES, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.TRAININGS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -27,7 +27,7 @@ const InsurancesDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { employeeId, name, type, amount, dateFrom, dateTo } = data;
+    const { employeeId, title, description, dateOfTraining, expirationDate } = data;
 
     return (
       <div className="details">
@@ -46,24 +46,20 @@ const InsurancesDetails = () => {
               <tbody>
                 <EmployeeDetails employeeId={employeeId} />
                 <tr>
-                  <td>Nazwa:</td>
-                  <td>{name}</td>
+                  <td>Tytuł:</td>
+                  <td>{title}</td>
                 </tr>
                 <tr>
-                  <td>Typ umowy:</td>
-                  <td>{type}</td>
+                  <td>Opis:</td>
+                  <td>{description}</td>
                 </tr>
                 <tr>
-                  <td>Kwota ubezpieczenia:</td>
-                  <td>{amount}</td>
+                  <td>Data szkolenia:</td>
+                  <td>{DateConverters.dateOnlyConverter(dateOfTraining)}</td>
                 </tr>
                 <tr>
-                  <td>Data zawarcia umowy:</td>
-                  <td>{DateConverters.dateOnlyConverter(dateFrom)}</td>
-                </tr>
-                <tr>
-                  <td>Data zakończenia umowy:</td>
-                  <td>{DateConverters.dateOnlyConverter(dateTo)}</td>
+                  <td>Data ważności szkolenia:</td>
+                  <td>{DateConverters.dateOnlyConverter(expirationDate)}</td>
                 </tr>
               </tbody>
             </Table>
@@ -81,4 +77,4 @@ const InsurancesDetails = () => {
   }
 }
 
-export default InsurancesDetails;
+export default TrainingsDetails;

@@ -10,8 +10,9 @@ import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'insurances';
+import Config from '../../../config/config';
 
 const InsurancesForm = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const InsurancesForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.INSURANCES, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -88,12 +89,12 @@ const InsurancesForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.INSURANCES, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.INSURANCES, id, values, setMessage, setErrMessage);
             }
   
-            if (!message) {
+            if (message) {
               setSubmitting(false);
               resetForm();
             }
@@ -161,7 +162,7 @@ const InsurancesForm = () => {
                   name="dateFrom"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateFrom || ''}
+                  value={values.dateFrom ? DateConverters.formDateConverter(values.dateFrom) : values.dateFrom}
                 />
                 {<p className="validationError">{errors.dateFrom && touched.dateFrom && errors.dateFrom}</p>}
               </Form.Group>
@@ -172,7 +173,7 @@ const InsurancesForm = () => {
                   name="dateTo"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateTo || ''}
+                  value={values.dateTo ? DateConverters.formDateConverter(values.dateTo) : values.dateTo}
                 />
                 {<p className="validationError">{errors.dateTo && touched.dateTo && errors.dateTo}</p>}
               </Form.Group>

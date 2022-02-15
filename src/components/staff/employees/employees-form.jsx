@@ -10,7 +10,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'employees';
+import Config from '../../../config/config';
 
 const EmployeesForm = () => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ const EmployeesForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.EMPLOYEES, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -77,9 +77,9 @@ const EmployeesForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.EMPLOYEES, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.EMPLOYEES, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {
