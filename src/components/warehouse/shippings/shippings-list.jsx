@@ -2,23 +2,24 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Container, Table, Row } from 'react-bootstrap';
 
-import Loading from '../loading/loading';
+import Loading from '../../loading/loading';
 
-import ListButtons from '../commons/list-buttons';
-import ReturnButton from '../commons/return-button';
+import ListButtons from '../../commons/list-buttons';
+import ReturnButton from '../../commons/return-button';
 
-import ApiQueries from '../../helpers/api-queries';
+import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-import Config from '../../config/config';
+import Config from '../../../config/config';
 
-const UsersList = () => {
+const ShippingsList = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(Config.USERS, setItems, setIsLoaded, setMessage);
+    ApiQueries.getItems(Config.SHIPPINGS, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -30,15 +31,15 @@ const UsersList = () => {
 
   const itemsList = () => {
     return (
-      items.data.map((user, index) => {
-        const id = user.id || user._id;
+      items.data.map((shipping, index) => {
+        const id = shipping.id || shipping._id;
         return (
           <tr key={id}>
             <td>{index + 1}</td>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.role}</td>
-            <ListButtons endpoint={Config.USERS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <td>{shipping.orderNumber}</td>
+            <td>{DateConverters.dateOnlyConverter(shipping.dateOfOrder)}</td>
+            <td>{DateConverters.dateOnlyConverter(shipping.dateOfShipment)}</td>
+            <ListButtons endpoint={Config.SHIPPINGS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })
@@ -50,16 +51,16 @@ const UsersList = () => {
       <div className="list">
         <Container fluid>
           <Row>
-            <h1>Użytkownicy</h1>
+            <h1>Wysyłki</h1>
           </Row>
           <Row>
             <Table striped bordered hover>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Nazwa</th>
-                  <th>Email</th>
-                  <th>Uprawnienia</th>
+                  <th>Numer zamówienia</th>
+                  <th>Data zamówienia</th>
+                  <th>Data wysyłki</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,4 +84,4 @@ const UsersList = () => {
   }
 }
 
-export default UsersList;
+export default ShippingsList;

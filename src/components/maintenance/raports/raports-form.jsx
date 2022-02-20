@@ -10,8 +10,9 @@ import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'raports';
+import Config from '../../../config/config';
 
 const RaportsForm = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const RaportsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.RAPORTS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -90,9 +91,9 @@ const RaportsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.RAPORTS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.RAPORTS, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {
@@ -147,7 +148,7 @@ const RaportsForm = () => {
                   name="breakdownDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.breakdownDate || ''}
+                  value={values.breakdownDate ? DateConverters.formDateConverter(values.breakdownDate) : values.breakdownDate}
                 />
                 {<p className="validationError">{errors.breakdownDate && touched.breakdownDate && errors.breakdownDate}</p>}
               </Form.Group>

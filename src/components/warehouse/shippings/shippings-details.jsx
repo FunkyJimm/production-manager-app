@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Table, Row } from 'react-bootstrap';
 
-import EmployeeDetails from '../../commons/employee-details';
 import Loading from '../../loading/loading';
+import ProductDetails from '../../commons/product-details';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
@@ -11,14 +11,14 @@ import DateConverters from '../../../helpers/date-converters';
 
 import Config from '../../../config/config';
 
-const TrainingsDetails = () => {
+const ShippingDetails = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(Config.TRAININGS, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.SHIPPINGS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -27,13 +27,13 @@ const TrainingsDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { employeeId, title, description, dateOfTraining, expirationDate } = data;
+    const { orderNumber, productId, quantity, price, weight, dateOfOrder, dateOfShipment } = data;
 
     return (
       <div className="details">
         <Container fluid>
           <Row>
-            <h1>Szczegóły szkolenia</h1>
+            <h1>Szczegóły wysyłki</h1>
           </Row>
           <Row>
             <Table striped bordered hover>
@@ -44,22 +44,39 @@ const TrainingsDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                <EmployeeDetails employeeId={employeeId} />
                 <tr>
-                  <td>Tytuł:</td>
-                  <td>{title}</td>
+                  <td>Nr wysyłki:</td>
+                  <td>{orderNumber}</td>
                 </tr>
                 <tr>
-                  <td>Opis:</td>
-                  <td>{description}</td>
+                  <td>Produkt:</td>
+                  <td>
+                    <Table striped bordered hover>
+                      <tbody>
+                        <ProductDetails productId={productId} />
+                      </tbody>
+                    </Table>
+                  </td>
                 </tr>
                 <tr>
-                  <td>Data szkolenia:</td>
-                  <td>{DateConverters.dateOnlyConverter(dateOfTraining)}</td>
+                  <td>Ilość:</td>
+                  <td>{quantity}</td>
                 </tr>
                 <tr>
-                  <td>Data ważności szkolenia:</td>
-                  <td>{DateConverters.dateOnlyConverter(expirationDate)}</td>
+                  <td>Cena:</td>
+                  <td>{price}</td>
+                </tr>
+                <tr>
+                  <td>Waga:</td>
+                  <td>{weight}</td>
+                </tr>
+                <tr>
+                  <td>Data zamówienia:</td>
+                  <td>{DateConverters.dateOnlyConverter(dateOfOrder)}</td>
+                </tr>
+                <tr>
+                  <td>Data wysyłki:</td>
+                  <td>{DateConverters.dateOnlyConverter(dateOfShipment)}</td>
                 </tr>
               </tbody>
             </Table>
@@ -77,4 +94,4 @@ const TrainingsDetails = () => {
   }
 }
 
-export default TrainingsDetails;
+export default ShippingDetails;

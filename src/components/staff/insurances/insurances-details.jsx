@@ -33,7 +33,7 @@ const InsurancesDetails = () => {
       <div className="details">
         <Container fluid>
           <Row>
-            <h1>Szczegóły umowy</h1>
+            <h1>Szczegóły ubezpieczenia</h1>
           </Row>
           <Row>
             <Table striped bordered hover>

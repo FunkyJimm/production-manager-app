@@ -11,8 +11,9 @@ import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'orders';
+import Config from '../../../config/config';
 
 const OrdersForm = () => {
   const { id } = useParams();
@@ -23,7 +24,7 @@ const OrdersForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.ORDERS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -39,9 +40,8 @@ const OrdersForm = () => {
     productId: '',
     quantity: '',
     managerId: '',
-    mechanicId: '',
     shift: '',
-    status: '',
+    status: true,
     publicationDate: '',
     executionDate: '',
   }
@@ -93,9 +93,9 @@ const OrdersForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.ORDERS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.ORDERS, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {
@@ -149,11 +149,6 @@ const OrdersForm = () => {
                 {<p className="validationError">{errors.managerId && touched.managerId && errors.managerId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Wybierz mechanika:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="mechanicId" />
-                {<p className="validationError">{errors.mechanicId && touched.mechanicId && errors.mechanicId}</p>}
-              </Form.Group>
-              <Form.Group className="mb-3">
                 <Form.Label>Podaj numer zmiany:</Form.Label>
                 <Form.Select 
                   name="shift"
@@ -175,18 +170,18 @@ const OrdersForm = () => {
                   name="publicationDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.publicationDate || ''}
+                  value={values.publicationDate ? DateConverters.formDateConverter(values.publicationDate) : values.publicationDate}
                 />
                 {<p className="validationError">{errors.publicationDate && touched.publicationDate && errors.publicationDate}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Data wykonania:</Form.Label>
+                <Form.Label>Data realizacji:</Form.Label>
                 <Form.Control
                   type="date"
                   name="executionDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.executionDate || ''}
+                  value={values.executionDate ? DateConverters.formDateConverter(values.executionDate) : values.executionDate}
                   disabled={!id && true}
                 />
                 {<p className="validationError">{errors.executionDate && touched.executionDate && errors.executionDate}</p>}

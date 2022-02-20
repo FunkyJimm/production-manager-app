@@ -3,16 +3,16 @@ import { useParams } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
 
-import Loading from '../../loading/loading';
+import Loading from '../loading/loading';
 
-import formTitle from '../../commons/form-title';
-import ReturnButton from '../../commons/return-button';
+import formTitle from '../commons/form-title';
+import ReturnButton from '../commons/return-button';
 
-import ApiQueries from '../../../helpers/api-queries';
+import ApiQueries from '../../helpers/api-queries';
 
-import Config from '../../../config/config';
+import Config from '../../config/config';
 
-const MachinesForm = () => {
+const UsersForm = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
@@ -21,7 +21,7 @@ const MachinesForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(Config.MACHINES, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.USERS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -34,40 +34,31 @@ const MachinesForm = () => {
 
   let initialValues = {
     name: '',
-    description: '',
-    state: '',
+    email: '',
+    role: '',
   }
 
   if (isLoaded) {
     if (id) {
       const { data } = items;
-      initialValues = { ...data }; 
+      initialValues = { ...data };
     }
 
     return (
       <div className='form'>
-        { formTitle(id, 'maszynę') }
+        { formTitle(id, 'użytkownika') }
         
         <Formik 
           initialValues={initialValues}
           validate={values => {
             const errors = {};
-            if (!values.name) {
-              errors.name = 'Nazwa jest wymagana!';
-            } else if (values.name.length < 2) {
-              errors.name = 'Nazwa jest za krótka!';
-            } else if (values.name.length > 32) {
-              errors.name = 'Nazwa jest za długa!';
+            if (!values.role) {
+              errors.role = 'Wybierz rolę pracownika!';
             }
-            if (!values.description) {
-              errors.description = 'Opis jest wymagany!';
-            } else if (values.description.length < 2) {
-              errors.description = 'Opis jest za krótki!';
-            } else if (values.description.length > 64) {
-              errors.description = 'Opis jest za długi!';
-            }
-            if (!values.state) {
-              errors.state = 'Wybierz stan maszyny!';
+            if (!values.email) {
+              errors.email = 'Adres email jest wymagany!';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+              errors.email = 'Wprowadzony adres email jest nieprawidłowy!';
             }
             return errors;
           }}
@@ -75,12 +66,12 @@ const MachinesForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(Config.MACHINES, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.USERS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(Config.MACHINES, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.USERS, id, values, setMessage, setErrMessage);
             }
   
-            if (!message) {
+            if (message) {
               setSubmitting(false);
               resetForm();
             }
@@ -101,38 +92,39 @@ const MachinesForm = () => {
                 <Form.Control
                   type="text"
                   name="name"
-                  placeholder="Nazwa maszyny"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
                   value={values.name}
+                  disabled={true}
                 />
-                {<p className="validationError">{errors.name && touched.name && errors.name}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Opis:</Form.Label>
+                <Form.Label>Email:</Form.Label>
                 <Form.Control
                   type="text"
-                  name="description"
-                  placeholder="Nazwa maszyny"
+                  name="email"
+                  placeholder="Podaj adres email"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.description}
+                  value={values.email}
                 />
-                {<p className="validationError">{errors.description && touched.description && errors.description}</p>}
+                {errors.email && touched.email && errors.email}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Stan maszyny:</Form.Label>
+                <Form.Label>Rola użytkownika:</Form.Label>
                 <Form.Select 
-                  name="state"
+                  name="role"
                   onChange={handleChange}
-                  value={values.state}
-                  defaultChecked={values?.state}
+                  value={values.role}
+                  defaultChecked={values?.role}
                 >
                   <option value="">Proszę wybrać opcję</option>
-                  <option value="true">Sprawna</option>
-                  <option value="false">Awaria</option>
+                  <option value="admin">Administrator</option>
+                  <option value="user">Użytkownik</option>
+                  <option value="office">Pracownik kadr</option>
+                  <option value="production">Pracownik produkcji</option>
+                  <option value="maintenance">Pracownik utrzymania ruchu</option>
+                  <option value="warehouse">Pracownik magazynu</option>
                 </Form.Select>
-                {<p className="validationError">{errors.state && touched.state && errors.state}</p>}
+                {<p className="validationError">{errors.role && touched.role && errors.role}</p>}
               </Form.Group>
               <Button variant="outline-primary" type="submit" disabled={isSubmitting}>Zatwierdź</Button>
               <ReturnButton />
@@ -151,4 +143,4 @@ const MachinesForm = () => {
   }
 }
 
-export default MachinesForm;
+export default UsersForm;

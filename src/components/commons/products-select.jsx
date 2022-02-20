@@ -14,7 +14,7 @@ const ProductsSelect = ({ handleChange, values, name = "productId" }) => {
   if (isLoaded) {
     const { data } = items;
     const productsList = data.map(product => (
-      <option key={product.name} value={product.id}>
+      <option key={product.name} value={product.id || product._id}>
         {product.name}
       </option>
     ))

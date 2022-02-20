@@ -10,14 +10,14 @@ import ApiQueries from '../../../helpers/api-queries';
 
 import Config from '../../../config/config';
 
-const SalariesDetails = () => {
+const PermitsDetails = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(Config.SALARIES, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.PERMITS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -26,13 +26,13 @@ const SalariesDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { employeeId, basic, bonus, accessories } = data;
+    const { employeeId, exitTime, returnTime } = data;
 
     return (
       <div className="details">
         <Container fluid>
           <Row>
-            <h1>Szczegóły wynagrodzenia</h1>
+            <h1>Szczegóły przepustki</h1>
           </Row>
           <Row>
             <Table striped bordered hover>
@@ -45,16 +45,12 @@ const SalariesDetails = () => {
               <tbody>
                 <EmployeeDetails employeeId={employeeId} />
                 <tr>
-                  <td>Wynagrodzenie podstawowe:</td>
-                  <td>{basic}</td>
+                  <td>Godzina wyjścia:</td>
+                  <td>{exitTime}</td>
                 </tr>
                 <tr>
-                  <td>Premia:</td>
-                  <td>{bonus}</td>
-                </tr>
-                <tr>
-                  <td>Wynagrodzenie dodatkowe:</td>
-                  <td>{accessories}</td>
+                  <td>Godzina powrotu:</td>
+                  <td>{returnTime}</td>
                 </tr>
               </tbody>
             </Table>
@@ -72,4 +68,4 @@ const SalariesDetails = () => {
   }
 }
 
-export default SalariesDetails;
+export default PermitsDetails;

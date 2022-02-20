@@ -11,7 +11,7 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'permits';
+import Config from '../../../config/config';
 
 const PermitsForm = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ const PermitsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.PERMITS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -68,9 +68,9 @@ const PermitsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.PERMITS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.PERMITS, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {

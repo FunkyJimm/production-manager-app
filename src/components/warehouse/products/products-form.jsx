@@ -9,8 +9,9 @@ import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'products';
+import Config from '../../../config/config';
 
 const ProductsForm = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ const ProductsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.PRODUCTS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -87,9 +88,9 @@ const ProductsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.PRODUCTS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.PRODUCTS, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {
@@ -124,7 +125,7 @@ const ProductsForm = () => {
                 <Form.Label>Opis:</Form.Label>
                 <Form.Control
                   type="text"
-                  name="name"
+                  name="description"
                   placeholder="Opis produktu"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -170,13 +171,13 @@ const ProductsForm = () => {
                 {<p className="validationError">{errors.weight && touched.weight && errors.weight}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Data zlecenia:</Form.Label>
+                <Form.Label>Data ważności:</Form.Label>
                 <Form.Control
                   type="date"
                   name="expirationDate"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.expirationDate || ''}
+                  value={values.expirationDate ? DateConverters.formDateConverter(values.expirationDate) : values.expirationDate}
                 />
                 {<p className="validationError">{errors.expirationDate && touched.expirationDate && errors.expirationDate}</p>}
               </Form.Group>

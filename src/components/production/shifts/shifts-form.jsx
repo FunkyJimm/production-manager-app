@@ -12,9 +12,9 @@ import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
 
-const END_POINT = 'machines';
+import Config from '../../../config/config';
 
-const ContractsForm = () => {
+const ShiftsForm = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
@@ -23,7 +23,7 @@ const ContractsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.SHIFTS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -52,7 +52,7 @@ const ContractsForm = () => {
 
     return (
       <div className='form'>
-        { formTitle(id, 'raport maszyny') }
+        { formTitle(id, 'raport zmianowy') }
         
         <Formik 
           initialValues={initialValues}
@@ -85,9 +85,9 @@ const ContractsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.SHIFTS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.SHIFTS, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {
@@ -189,4 +189,4 @@ const ContractsForm = () => {
   }
 }
 
-export default ContractsForm;
+export default ShiftsForm;

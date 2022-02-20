@@ -18,8 +18,8 @@ const AsideMenu = () => {
                     <Accordion.Item eventKey={1}>
                       <Accordion.Header>Dane osobowe</Accordion.Header>
                       <Accordion.Body>
-                        <a href="/personaldatas/form" className="href">Dodaj</a><br />
-                        <a href="/personaldatas" className="href">Przeglądaj</a>
+                        <a href="/personaldata/form" className="href">Dodaj</a><br />
+                        <a href="/personaldata" className="href">Przeglądaj</a>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -89,10 +89,10 @@ const AsideMenu = () => {
                 <Accordion.Body>
                   <Accordion>
                     <Accordion.Item eventKey={9}>
-                      <Accordion.Header>Maszyny</Accordion.Header>
+                      <Accordion.Header>Zmiany</Accordion.Header>
                       <Accordion.Body>
-                        <a href="/machines/form" className="href">Dodaj</a><br />
-                        <a href="/machines" className="href">Przeglądaj</a>
+                        <a href="/shifts/form" className="href">Dodaj</a><br />
+                        <a href="/shifts" className="href">Przeglądaj</a>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -128,8 +128,8 @@ const AsideMenu = () => {
                     <Accordion.Item eventKey={12}>
                       <Accordion.Header>Maszyny</Accordion.Header>
                       <Accordion.Body>
-                        <a href="/services/form" className="href">Dodaj</a><br />
-                        <a href="/services" className="href">Przeglądaj</a>
+                        <a href="/machines/form" className="href">Dodaj</a><br />
+                        <a href="/machines" className="href">Przeglądaj</a>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>

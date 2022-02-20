@@ -3,15 +3,16 @@ import { useParams } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Alert, Button, Form } from 'react-bootstrap';
 
-import EmployeesSelect from '../../commons/employees-select';
 import Loading from '../../loading/loading';
+import ProductsSelect from '../../commons/products-select';
 
 import formTitle from '../../commons/form-title';
 import ReturnButton from '../../commons/return-button';
 
 import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-const END_POINT = 'shippings';
+import Config from '../../../config/config';
 
 const ShippingsForm = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const ShippingsForm = () => {
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(END_POINT, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.SHIPPINGS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(true);
     }
@@ -82,9 +83,9 @@ const ShippingsForm = () => {
             resetMessages();
   
             if (!id) {
-              ApiQueries.addItem(END_POINT, values, setMessage, setErrMessage);
+              ApiQueries.addItem(Config.SHIPPINGS, values, setMessage, setErrMessage);
             } else {
-              ApiQueries.updateItem(END_POINT, id, values, setMessage, setErrMessage);
+              ApiQueries.updateItem(Config.SHIPPINGS, id, values, setMessage, setErrMessage);
             }
   
             if (!message) {
@@ -107,17 +108,17 @@ const ShippingsForm = () => {
                 <Form.Label>Podaj numer wysyłki:</Form.Label>
                 <Form.Control
                   type="number"
-                  name="quantity"
+                  name="orderNumber"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.quantity || 0}
+                  value={values.orderNumber || 0}
                   min={0}
                 />
-                {<p className="validationError">{errors.quantity && touched.quantity && errors.quantity}</p>}
+                {<p className="validationError">{errors.orderNumber && touched.orderNumber && errors.orderNumber}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Wybierz produkt:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="productId" />
+                <ProductsSelect handleChange={handleChange} values={values} name="productId" />
                 {<p className="validationError">{errors.productId && touched.productId && errors.productId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
@@ -165,7 +166,7 @@ const ShippingsForm = () => {
                   name="dateOfOrder"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateOfOrder || ''}
+                  value={values.dateOfOrder ? DateConverters.formDateConverter(values.dateOfOrder) : values.dateOfOrder}
                 />
                 {<p className="validationError">{errors.dateOfOrder && touched.dateOfOrder && errors.dateOfOrder}</p>}
               </Form.Group>
@@ -176,7 +177,7 @@ const ShippingsForm = () => {
                   name="dateOfShipment"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.dateOfShipment || ''}
+                  value={values.dateOfShipment ? DateConverters.formDateConverter(values.dateOfShipment) : values.dateOfShipment}
                 />
                 {<p className="validationError">{errors.dateOfShipment && touched.dateOfShipment && errors.dateOfShipment}</p>}
               </Form.Group>

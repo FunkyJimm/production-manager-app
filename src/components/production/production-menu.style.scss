@@ -1,32 +1,50 @@
-.production-menu {
-  width: 90vw;
-  height: 100vh;
+.production {
+  width: 85vw;
+  height: 95vh;
   display: flex;
-  flex-flow: column nowrap;
   justify-content: center;
   align-content: center;
-  
-  &__box {
-    height: 20vh;
+
+  &-menu {
+    width: 80%;
+    height: 100%;
     display: flex;
+    flex-flow: row wrap;
     justify-content: center;
-    align-items: center;
-
-    &-machines {
-      background: #00ADB5;
-    }
-
-    &-orders {
-      background: #2C4251;
-    }
-
-    &-permits {
+    align-content: center;
+    
+    &__box {
       background: #EEEEEE;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #AAD8D3;
+      width: 300px;
+      height: 300px;
+      margin: 10px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 200ms;
+
+      &-icon {
+        width: 100px;
+        height: 100px;
+      }
+
+      &-desc {
+        h2 {
+          font-size: 1rem;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          text-align: center;
+        }
+      }
+
+      &:hover {
+        box-shadow: 0 0 50px #AAD8D3;
+        transform: scale(95%);
+      }
     }
   }
-
-  &__box:hover {
-    filter: brightness(80%);
-  }
-
 }

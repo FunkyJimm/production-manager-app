@@ -19,13 +19,22 @@ const EmployeesSelect = ({ handleChange, values, name = "employeeId" }) => {
       </option>
     ))
 
+    let typeOfEmployee = '';
+    if (name === 'employeeId' && values?.employeeId) {
+      typeOfEmployee = values?.employeeId;
+    } else if (name === 'managerId' && values?.managerId) {
+      typeOfEmployee = values?.managerId;
+    } else if (name === 'mechanicId' && values?.mechanicId) {
+      typeOfEmployee = values?.mechanicId;
+    }
+
     return (
       <Form.Select 
         name={name}
         onChange={handleChange}
-        value={values.employeeId}
-        defaultChecked={values?.employeeId}
-        disabled={values?.employeeId && true}
+        value={values.typeOfEmployee}
+        defaultChecked={values?.typeOfEmployee}
+        disabled={values?.typeOfEmployee && true}
       >
         <option value="">Proszę wybrać pracownika</option>
         {employeesList}

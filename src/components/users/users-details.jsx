@@ -2,22 +2,21 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Table, Row } from 'react-bootstrap';
 
-import EmployeeDetails from '../../commons/employee-details';
-import Loading from '../../loading/loading';
-import ReturnButton from '../../commons/return-button';
+import Loading from '../loading/loading';
+import ReturnButton from '../commons/return-button';
 
-import ApiQueries from '../../../helpers/api-queries';
+import ApiQueries from '../../helpers/api-queries';
 
-import Config from '../../../config/config';
+import Config from '../../config/config';
 
-const SalariesDetails = () => {
+const UsersDetails = () => {
   const { id } = useParams();
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
     if (id) {
-      ApiQueries.getItemDetails(Config.SALARIES, id, setItems, setIsLoaded);
+      ApiQueries.getItemDetails(Config.USERS, id, setItems, setIsLoaded);
     } else {
       setIsLoaded(false);
     }
@@ -26,13 +25,13 @@ const SalariesDetails = () => {
   if (isLoaded) {
     const { data } = items;
     const id = data.id || data._id;
-    const { employeeId, basic, bonus, accessories } = data;
+    const { name, email, type } = data;
 
     return (
       <div className="details">
         <Container fluid>
           <Row>
-            <h1>Szczegóły wynagrodzenia</h1>
+            <h1>Szczegóły użytkownika</h1>
           </Row>
           <Row>
             <Table striped bordered hover>
@@ -43,18 +42,17 @@ const SalariesDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                <EmployeeDetails employeeId={employeeId} />
                 <tr>
-                  <td>Wynagrodzenie podstawowe:</td>
-                  <td>{basic}</td>
+                  <td>Nazwa:</td>
+                  <td>{name}</td>
                 </tr>
                 <tr>
-                  <td>Premia:</td>
-                  <td>{bonus}</td>
+                  <td>Adres email:</td>
+                  <td>{email}</td>
                 </tr>
                 <tr>
-                  <td>Wynagrodzenie dodatkowe:</td>
-                  <td>{accessories}</td>
+                  <td>Rola:</td>
+                  <td>{type}</td>
                 </tr>
               </tbody>
             </Table>
@@ -72,4 +70,4 @@ const SalariesDetails = () => {
   }
 }
 
-export default SalariesDetails;
+export default UsersDetails;

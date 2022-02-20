@@ -51,7 +51,7 @@ const ContractsList = () => {
       <div className="list">
         <Container fluid>
           <Row>
-            <h1>Kontrakty</h1>
+            <h1>Umowy</h1>
           </Row>
           <Row>
             <Table striped bordered hover>

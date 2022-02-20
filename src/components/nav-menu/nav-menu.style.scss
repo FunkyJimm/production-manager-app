@@ -8,14 +8,23 @@
   align-items: center;
 
   &__links {
-    width: 90%;
+    width: 100%;
+    text-transform: uppercase;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-around;
+    justify-content: center;
 
     .link {
-      width: 20vh;
+      width: 200px;
       color: #fff;
+      text-align: center;
+      letter-spacing: 2px;
+      transition: 10ms;
+
+      &:hover {
+        color: #AAD8D3;
+        transform: scale(95%);
+      }
     }
   }
 

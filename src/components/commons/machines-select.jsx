@@ -8,13 +8,13 @@ const MachinesSelect = ({ handleChange, values, name = "machineId" }) => {
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
-    ApiQueries.getItems('services', setItems, setIsLoaded);
+    ApiQueries.getItems('machines', setItems, setIsLoaded);
   }, [isLoaded]);
   
   if (isLoaded) {
     const { data } = items;
     const machinesList = data.map(machine => (
-      <option key={machine.name} value={machine.id}>
+      <option key={machine.name} value={machine.id || machine._id}>
         {machine.name}
       </option>
     ))

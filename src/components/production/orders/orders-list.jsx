@@ -2,23 +2,25 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Container, Table, Row } from 'react-bootstrap';
 
-import Loading from '../loading/loading';
+import Loading from '../../loading/loading';
 
-import ListButtons from '../commons/list-buttons';
-import ReturnButton from '../commons/return-button';
+import ListButtons from '../../commons/list-buttons';
+import ReturnButton from '../../commons/return-button';
 
-import ApiQueries from '../../helpers/api-queries';
+import ApiQueries from '../../../helpers/api-queries';
+import DateConverters from '../../../helpers/date-converters';
 
-import Config from '../../config/config';
+import Config from '../../../config/config';
 
-const UsersList = () => {
+const OrdersList = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ApiQueries.getItems(Config.USERS, setItems, setIsLoaded, setMessage);
+    console.log("DZIAŁA")
+    ApiQueries.getItems(Config.ORDERS, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -30,15 +32,17 @@ const UsersList = () => {
 
   const itemsList = () => {
     return (
-      items.data.map((user, index) => {
-        const id = user.id || user._id;
+      items.data.map((order, index) => {
+        const id = order.id || order._id;
         return (
           <tr key={id}>
             <td>{index + 1}</td>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.role}</td>
-            <ListButtons endpoint={Config.USERS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
+            <td>{order.name}</td>
+            <td>{order.shift}</td>
+            <td>{order.status ? 'Aktualne' : 'Zrealizowane'}</td>
+            <td>{DateConverters.dateOnlyConverter(order.publicationDate)}</td>
+            <td>{DateConverters.dateOnlyConverter(order.executionDate)}</td>
+            <ListButtons endpoint={Config.ORDERS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
       })
@@ -50,7 +54,7 @@ const UsersList = () => {
       <div className="list">
         <Container fluid>
           <Row>
-            <h1>Użytkownicy</h1>
+            <h1>Zlecenia produkcyjne</h1>
           </Row>
           <Row>
             <Table striped bordered hover>
@@ -58,8 +62,10 @@ const UsersList = () => {
                 <tr>
                   <th>#</th>
                   <th>Nazwa</th>
-                  <th>Email</th>
-                  <th>Uprawnienia</th>
+                  <th>Zmiana</th>
+                  <th>Status</th>
+                  <th>Data zlecenia</th>
+                  <th>Data realizacji</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,4 +89,4 @@ const UsersList = () => {
   }
 }
 
-export default UsersList;
+export default OrdersList;
