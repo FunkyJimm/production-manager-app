@@ -102,7 +102,7 @@ const HolidaysForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <EmployeesSelect handleChange={handleChange} values={values} />
+                <EmployeesSelect handleChange={handleChange} value={values.employeeId} />
                 {<p className="validationError">{errors.employeeId && touched.employeeId && errors.employeeId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">

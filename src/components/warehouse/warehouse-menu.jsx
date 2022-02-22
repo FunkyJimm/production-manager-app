@@ -7,7 +7,7 @@ const WarehouseMenu = () => {
   const navigate = useNavigate()
 
   const handleBox = endpoint => {
-    navigate(endpoint, { replace: false }, [navigate]);
+    navigate(`/${endpoint}`, { replace: false }, [navigate]);
   }
 
   return (

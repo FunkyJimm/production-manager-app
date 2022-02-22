@@ -79,7 +79,7 @@ const ProductsForm = () => {
             if (values.weight < 0) {
               errors.weight = 'Waga nie może być mniejsza od 0!';
             }
-            if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.expirationDate)) {
+            if (!values.expirationDate && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.expirationDate)) {
               errors.expirationDate = 'Podana data jest nieprawidłowa!';
             }
             return errors;

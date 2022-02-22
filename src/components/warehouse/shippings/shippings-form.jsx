@@ -69,12 +69,12 @@ const ShippingsForm = () => {
             }
             if (!values.dateOfOrder) {
               errors.dateOfOrder = 'Data zamówienia jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfOrder)) {
+            } else if (!values.dateOfOrder && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfOrder)) {
               errors.dateOfOrder = 'Podana data jest nieprawidłowa!';
             }
             if (!values.dateOfShipment) {
               errors.dateOfShipment = 'Data wysyłki jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfShipment)) {
+            } else if (!values.dateOfShipment && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfShipment)) {
               errors.dateOfShipment = 'Podana data jest nieprawidłowa!';
             }
             return errors;

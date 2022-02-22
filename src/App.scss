@@ -10,3 +10,59 @@
 .validationError {
   color: red;
 }
+
+.main {
+  background: #393E46;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.form {
+  background: #EEEEEE;
+  width: 85vw;
+  height: 93vh;
+  flex-flow: row nowrap;
+  justify-content: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.list {
+  background: #EEEEEE;
+  width: 85vw;
+  height: 93vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.details {
+  background: #EEEEEE;
+  width: 85vw;
+  height: 93vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.error-page {
+  background: #EEEEEE;
+  color: #000;
+}
+
+.footer {
+  display: grid;
+  flex-flow: row;
+}

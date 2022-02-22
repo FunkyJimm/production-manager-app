@@ -75,12 +75,12 @@ const InsurancesForm = () => {
             }
             if (!values.dateFrom) {
               errors.dateFrom = 'Data zawarcia polisy jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateFrom)) {
+            } else if (!values.dateFrom && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateFrom)) {
               errors.dateFrom = 'Podana data jest nieprawidłowa!';
             }
             if (!values.dateTo) {
               errors.dateTo = 'Data zakończenia polisy jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateTo)) {
+            } else if (!values.dateTo && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateTo)) {
               errors.dateTo = 'Podana data jest nieprawidłowa!';
             }
             return errors;
@@ -111,7 +111,7 @@ const InsurancesForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <EmployeesSelect handleChange={handleChange} values={values} />
+                <EmployeesSelect handleChange={handleChange} value={values.employeeId} />
                 {<p className="validationError">{errors.employeeId && touched.employeeId && errors.employeeId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">

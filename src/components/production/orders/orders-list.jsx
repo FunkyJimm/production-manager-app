@@ -19,7 +19,6 @@ const OrdersList = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    console.log("DZIAŁA")
     ApiQueries.getItems(Config.ORDERS, setItems, setIsLoaded, setMessage);
   }, [isLoaded]);
 

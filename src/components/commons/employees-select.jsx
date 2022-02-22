@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 
 import ApiQueries from '../../helpers/api-queries';
 
-const EmployeesSelect = ({ handleChange, values, name = "employeeId" }) => {
+const EmployeesSelect = ({ handleChange, value, name = "employeeId" }) => {
   const [items, setItems] = useState();
   const [isLoaded, setIsLoaded] = useState();
 
@@ -19,22 +19,13 @@ const EmployeesSelect = ({ handleChange, values, name = "employeeId" }) => {
       </option>
     ))
 
-    let typeOfEmployee = '';
-    if (name === 'employeeId' && values?.employeeId) {
-      typeOfEmployee = values?.employeeId;
-    } else if (name === 'managerId' && values?.managerId) {
-      typeOfEmployee = values?.managerId;
-    } else if (name === 'mechanicId' && values?.mechanicId) {
-      typeOfEmployee = values?.mechanicId;
-    }
-
     return (
       <Form.Select 
         name={name}
         onChange={handleChange}
-        value={values.typeOfEmployee}
-        defaultChecked={values?.typeOfEmployee}
-        disabled={values?.typeOfEmployee && true}
+        value={value}
+        defaultChecked={value && value}
+        disabled={value && true}
       >
         <option value="">Proszę wybrać pracownika</option>
         {employeesList}

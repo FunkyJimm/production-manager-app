@@ -110,7 +110,7 @@ const PersonalDataForm = () => {
             }
             if (!values.dateOfBirth) {
               errors.dateOfBirth = 'Data urodzenia jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfBirth)) {
+            } else if (!values.dateOfBirth && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfBirth)) {
               errors.dateOfBirth = 'Podana data jest nieprawidłowa!';
             }
             if (!values.education) {
@@ -166,7 +166,7 @@ const PersonalDataForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <EmployeesSelect handleChange={handleChange} values={values} />
+                <EmployeesSelect handleChange={handleChange} value={values.employeeId} />
                 {<p className="validationError">{errors.employeeId && touched.employeeId && errors.employeeId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">

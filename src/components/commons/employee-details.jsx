@@ -7,7 +7,6 @@ const EmployeeDetails = ({ employeeId }) => {
   const [isLoaded, setIsLoaded] = useState();
 
   useEffect(() => {
-    console.log(employeeId)
     ApiQueries.getItemDetails('employees', employeeId, setItems, setIsLoaded);
   }, [isLoaded]);
 

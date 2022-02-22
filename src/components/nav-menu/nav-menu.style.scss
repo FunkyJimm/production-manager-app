@@ -2,20 +2,25 @@
   background: #222831;
   box-shadow: 5px 0px 25px #222831;
   width: 85vw;
-  height: 5vh;
+  height: 7vh;
   display: flex;
   justify-content: space;
   align-items: center;
 
+  &__block {
+    width: 15vw;
+  }
+
   &__links {
-    width: 100%;
+    width: 55vw;
     text-transform: uppercase;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
 
     .link {
-      width: 200px;
+      width: auto;
+      padding: 0 50px;
       color: #fff;
       text-align: center;
       letter-spacing: 2px;
@@ -34,5 +39,28 @@
     flex-flow: row nowrap;
     justify-content: end;
     align-items: center;
+  }
+
+  &__session {
+    width: 15vw;
+
+    &-panel {
+      display: flex;
+      flex-flow: column nowrap;
+
+      p {
+        width: auto;
+        margin-right: 1vw;
+        margin-bottom: 0.5vh;
+        color: #fff;
+        text-align: end;
+      }
+
+      button {
+        width: 5vw;
+        margin-right: 1vw;
+        align-self: flex-end;
+      }
+    }
   }
 }

@@ -4,7 +4,7 @@ import ApiQueries from '../../helpers/api-queries';
 
 const ListButtons = ({ endpoint, id, navigate, setIsLoaded, setMessage }) => {
   const handleDetails = () => {
-    navigate(`/${endpoint}/${id}`, { replace: true }, [navigate]);
+    navigate(`/${endpoint}/${id}`, { replace: false }, [navigate]);
   }
   
   const handleEdit = () => {

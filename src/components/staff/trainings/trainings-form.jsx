@@ -75,12 +75,12 @@ const TrainingsForm = () => {
             }
             if (!values.dateOfTraining) {
               errors.dateOfTraining = 'Data zawarcia umowy jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfTraining)) {
+            } else if (!values.dateOfTraining && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.dateOfTraining)) {
               errors.dateOfTraining = 'Podana data jest nieprawidłowa!';
             }
             if (!values.expirationDate) {
               errors.expirationDate = 'Data zakończenia umowy jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.expirationDate)) {
+            } else if (!values.expirationDate && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.expirationDate)) {
               errors.expirationDate = 'Podana data jest nieprawidłowa!';
             }
             return errors;
@@ -111,7 +111,7 @@ const TrainingsForm = () => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <EmployeesSelect handleChange={handleChange} values={values} />
+                <EmployeesSelect handleChange={handleChange} value={values.employeeId} />
                 {<p className="validationError">{errors.employeeId && touched.employeeId && errors.employeeId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">

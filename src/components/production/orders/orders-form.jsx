@@ -84,7 +84,7 @@ const OrdersForm = () => {
             }
             if (!values.publicationDate) {
               errors.publicationDate = 'Data wystawienia zlecenia jest wymagana!';
-            } else if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.publicationDate)) {
+            } else if (!values.publicationDate && !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/i.test(values.publicationDate)) {
               errors.publicationDate = 'Podana data jest nieprawidłowa!';
             }
             return errors;
@@ -145,7 +145,7 @@ const OrdersForm = () => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Wybierz brygadzistę:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="managerId" />
+                <EmployeesSelect handleChange={handleChange} value={values.managerId} name="managerId" />
                 {<p className="validationError">{errors.managerId && touched.managerId && errors.managerId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
@@ -157,9 +157,9 @@ const OrdersForm = () => {
                   defaultChecked={values?.shift}
                 >
                   <option value="">Proszę wybrać opcję</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
                 </Form.Select>
                 {<p className="validationError">{errors.shift && touched.shift && errors.shift}</p>}
               </Form.Group>

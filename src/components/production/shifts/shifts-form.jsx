@@ -35,7 +35,7 @@ const ShiftsForm = () => {
   }
 
   let initialValues = {
-    staff: '',
+    shift: '',
     managerId: '',
     mechanicId: '',
     productId: '',
@@ -58,7 +58,7 @@ const ShiftsForm = () => {
           initialValues={initialValues}
           validate={values => {
             const errors = {};
-            if (!values.staff) {
+            if (!values.shift) {
               errors.staff = 'Podaj zmianę!';
             }
             if (!values.managerId) {
@@ -109,26 +109,26 @@ const ShiftsForm = () => {
               <Form.Group className="mb-3">
                 <Form.Label>Podaj numer zmiany:</Form.Label>
                 <Form.Select 
-                  name="staff"
+                  name="shift"
                   onChange={handleChange}
-                  value={values.staff}
-                  defaultChecked={values?.staff}
+                  value={values.shift}
+                  defaultChecked={values?.shift}
                 >
                   <option value="">Proszę wybrać opcję</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
                 </Form.Select>
-                {<p className="validationError">{errors.staff && touched.staff && errors.staff}</p>}
+                {<p className="validationError">{errors.shift && touched.shift && errors.shift}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Wybierz brygadzistę:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="managerId" />
+                <EmployeesSelect handleChange={handleChange} value={values.managerId} name="managerId" />
                 {<p className="validationError">{errors.managerId && touched.managerId && errors.managerId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Wybierz mechanika:</Form.Label>
-                <EmployeesSelect handleChange={handleChange} values={values} name="mechanicId" />
+                <EmployeesSelect handleChange={handleChange} value={values.mechanicId} name="mechanicId" />
                 {<p className="validationError">{errors.mechanicId && touched.mechanicId && errors.mechanicId}</p>}
               </Form.Group>
               <Form.Group className="mb-3">

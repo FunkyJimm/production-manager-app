@@ -35,7 +35,8 @@ const ShiftsList = () => {
         return (
           <tr key={id}>
             <td>{index + 1}</td>
-            <td>{shift.staff}</td>
+            <td>{shift.shift}</td>
+            <td>{shift.workingTime}h</td>
             <ListButtons endpoint={Config.SHIFTS} id={id} navigate={navigate} setIsLoaded={setIsLoaded} setMessage={setMessage} />
           </tr>
         )
@@ -56,6 +57,7 @@ const ShiftsList = () => {
                 <tr>
                   <th>#</th>
                   <th>Nr zmiany</th>
+                  <th>Czas pracy</th>
                 </tr>
               </thead>
               <tbody>
